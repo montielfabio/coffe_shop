@@ -1,0 +1,25 @@
+# Incluir todas las dependencias de producción
+-r requirements.txt
+
+# Herramientas de desarrollo y debugging
+debugpy==1.8.20
+ipython==9.10.0
+ipykernel==7.2.0
+jupyter_client==8.8.0
+jupyter_core==5.9.1
+
+# Linting y formateo de código
+black==24.0.0
+flake8==7.0.0
+isort==5.13.2
+
+# Testing
+pytest==7.4.4
+pytest-cov==4.1.0
+pytest-django==4.7.0
+
+# Herramientas de Django
+django-extensions==3.2.3
+
+# Utilidades
+ipython-pygments-lexers==1.1.1
