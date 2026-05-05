@@ -6,6 +6,6 @@ from .models import Product
 class ProductAdmin(admin.ModelAdmin):
     model = Product
     list_display = ['name', 'price', 'available'] #para mostrar el nombre, precio y disponibilidad del producto en la lista de productos en el admin
-    search_fields = ['name', 'description'] #para buscar por nombre o descripción del producto
+    search_fields = ['name'] #para buscar por nombre o descripción del producto
 
 admin.site.register(Product, ProductAdmin)
