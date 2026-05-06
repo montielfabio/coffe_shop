@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
-from products.models import Product
+from products.models import Product 
+
 
 #clase Order y OrderProduct para manejar las ordenes y los productos dentro de cada orden
 class Order(models.Model):

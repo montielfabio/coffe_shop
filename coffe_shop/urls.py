@@ -19,16 +19,13 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
-# URL patterns para el proyecto, incluyendo las rutas para productos, usuarios y ordenes
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('productos/', include('products.urls')),
     path('usuarios/', include('users.urls')),
     path('ordenes/', include('orders.urls')),
-    
 ]
 
-# Solo en desarrollo: servir archivos estáticos y media
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
