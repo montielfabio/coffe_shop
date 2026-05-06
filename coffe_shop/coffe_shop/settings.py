@@ -40,7 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'products',
     'users',
+    'orders',   
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -127,3 +129,4 @@ STATIC_ROOT = BASE_DIR / "staticfiles"     # carpeta para collectstatic en produ
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / "media"
 LOGIN_REDIRECT_URL = '/productos/'# Redirige a la lista de productos después del login/logout
+LOGOUT_REDIRECT_URL = '/productos/'# Redirige a la lista de productos después del login/logout
