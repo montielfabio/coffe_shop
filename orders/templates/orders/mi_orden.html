@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% if orden %}
+    {{ orden.user.username }}
+    {{ orden.order_date|date:"Y-m-d H:i" }}
+
+    {% for product_order in orden.order_products.all %}
+        {{ product_order.product.name }} - {{ product_order.quantity }}
+    {% endfor %}
+
+{% else %}
+    <p>No tenés ninguna orden activa.</p>
+{% endif %}
+
+{% endblock content %}

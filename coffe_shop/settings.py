@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'products',
     'users',
     'orders',
+    'rest_framework', 
 ]
 
 
@@ -130,3 +131,7 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / "media"
 LOGIN_REDIRECT_URL = '/productos/'# Redirige a la lista de productos después del login/logout
 LOGOUT_REDIRECT_URL = '/productos/'# Redirige a la lista de productos después del login/logout
+REST_FRAMEWORK = {
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 10,
+} 
