@@ -87,7 +87,7 @@ WSGI_APPLICATION = "coffe_shop.wsgi.application"
 
 DATABASES = {
     "default": dj_database_url.config(
-        default=env.str("DJANGO_DB_URL"),
+        default=env.str("DJANGO_DB_URL", "postgresql://localhost/coffe_shop"),
         conn_max_age=600,
         conn_health_checks=True,
         ssl_require=True,
