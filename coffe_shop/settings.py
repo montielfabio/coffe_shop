@@ -27,10 +27,10 @@ ALLOWED_HOSTS = [
 
 # En AWS Elastic Beanstalk, permitir todas las IPs internas
 if not DEBUG:
-    # Agregar wildcards para cualquier dominio de EB
     ALLOWED_HOSTS.extend([
-        '.eba-ghhcp8t6.us-east-2.elasticbeanstalk.com',  # Todos los subdominios
-        '172.31.*',  # Todas las IPs en el rango de VPC (172.31.0.0/16)
+        '.eba-ghhcp8t6.us-east-2.elasticbeanstalk.com',
+        # Fix: Django no acepta wildcards, se agregan IPs del health check de ELB
+        '172.31.0.1', '172.31.0.2', '172.31.0.3',
     ])
 
 INSTALLED_APPS = [
@@ -78,8 +78,6 @@ TEMPLATES = [
 WSGI_APPLICATION = "coffe_shop.wsgi.application"
 
 # Database
-# https://docs.djangoproject.com/en/6.0/ref/settings/#databases
-
 if os.environ.get("DJANGO_DB_URL"):
     DATABASES = {
         "default": dj_database_url.config(
@@ -129,12 +127,11 @@ LOGOUT_REDIRECT_URL = "/productos/"
 if not DEBUG:
     USE_X_FORWARDED_HOST = True
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
-    SECURE_SSL_REDIRECT = True
-    SESSION_COOKIE_SECURE = True
-    CSRF_COOKIE_SECURE = True
-    SECURE_HSTS_SECONDS = 31536000
-    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-
+    # SECURE_SSL_REDIRECT = True
+    # SESSION_COOKIE_SECURE = True
+    # CSRF_COOKIE_SECURE = True
+    # SECURE_HSTS_SECONDS = 31536000
+    # SECURE_HSTS_INCLUDE_SUBDOMAINS = True
 REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
     "PAGE_SIZE": 10,

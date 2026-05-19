@@ -1,1 +1,1 @@
-web: gunicorn --workers 3 --worker-class sync --bind 0.0.0.0:8000 --timeout 60 coffe_shop.wsgi:application
+web: gunicorn --workers 3 --worker-class sync --bind 0.0.0.0:5000 --timeout 60 coffe_shop.wsgi:application
