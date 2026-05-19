@@ -25,12 +25,12 @@ ALLOWED_HOSTS = [
     '127.0.0.1',
 ]
 
-# En AWS Elastic Beanstalk, agregar IPs internas de la red privada
+# En AWS Elastic Beanstalk, permitir todas las IPs internas
 if not DEBUG:
-    # Agregar IPs internas que pueden estar en el rango 172.31.0.0/16
+    # Agregar wildcards para cualquier dominio de EB
     ALLOWED_HOSTS.extend([
-        '172.31.19.28',  # IP específica del error
-        '.eba-*.elasticbeanstalk.com',  # Cualquier dominio de EB en cualquier región
+        '.eba-ghhcp8t6.us-east-2.elasticbeanstalk.com',  # Todos los subdominios
+        '172.31.*',  # Todas las IPs en el rango de VPC (172.31.0.0/16)
     ])
 
 INSTALLED_APPS = [
