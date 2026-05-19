@@ -19,7 +19,19 @@ SECRET_KEY = "django-insecure-*p_9y*nnoe7yp-n2zwq=2*xvyuwgdba%85vyws47f#xs5whi45
 # DEBUG es False en producción a menos que esté explícitamente configurado
 DEBUG = os.environ.get("DEBUG", "False") == "True"
 
-ALLOWED_HOSTS = ['coffe-shop-production.eba-ghhcp8t6.us-east-2.elasticbeanstalk.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = [
+    'coffe-shop-production.eba-ghhcp8t6.us-east-2.elasticbeanstalk.com',
+    'localhost',
+    '127.0.0.1',
+]
+
+# En AWS Elastic Beanstalk, agregar IPs internas de la red privada
+if not DEBUG:
+    # Agregar IPs internas que pueden estar en el rango 172.31.0.0/16
+    ALLOWED_HOSTS.extend([
+        '172.31.19.28',  # IP específica del error
+        '.eba-*.elasticbeanstalk.com',  # Cualquier dominio de EB en cualquier región
+    ])
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -115,6 +127,8 @@ LOGOUT_REDIRECT_URL = "/productos/"
 
 # Configuración de seguridad para producción
 if not DEBUG:
+    USE_X_FORWARDED_HOST = True
+    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
     SECURE_SSL_REDIRECT = True
     SESSION_COOKIE_SECURE = True
     CSRF_COOKIE_SECURE = True
