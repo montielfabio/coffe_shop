@@ -63,14 +63,28 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "coffe_shop.wsgi.application"
 
-DATABASES = {
-    "default": dj_database_url.config(
-        default=env.str("DJANGO_DB_URL", "postgresql://localhost/coffe_shop"),
-        conn_max_age=600,
-        conn_health_checks=True,
-        ssl_require=True,
-    )
-}
+# Database
+# https://docs.djangoproject.com/en/6.0/ref/settings/#databases
+
+if os.environ.get("DJANGO_DB_URL"):
+    DATABASES = {
+        "default": dj_database_url.config(
+            default=os.environ.get("DJANGO_DB_URL"),
+            conn_max_age=600,
+            conn_health_checks=True,
+        )
+    }
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": env.str("DJANGO_DB_NAME", "coffe_shop"),
+            "USER": env.str("DJANGO_DB_USER", "coffe_shop"),
+            "PASSWORD": env.str("DJANGO_DB_PASSWORD", ""),
+            "HOST": env.str("DJANGO_DB_HOST", "localhost"),
+            "PORT": "5432",
+        }
+    }
 
 AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
