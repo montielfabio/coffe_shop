@@ -1,17 +1,70 @@
 {% extends "base.html" %}
 
 {% block content %}
-
-{% if orden %}
-    {{ orden.user.username }}
-    {{ orden.order_date|date:"Y-m-d H:i" }}
-
-    {% for product_order in orden.order_products.all %}
-        {{ product_order.product.name }} - {{ product_order.quantity }}
-    {% endfor %}
-
-{% else %}
-    <p>No tenés ninguna orden activa.</p>
-{% endif %}
-
+<div class="max-w-4xl mx-auto">
+    <h1 class="text-4xl font-bold text-gray-800 mb-8">Mi Pedido</h1>
+    
+    {% if orden %}
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <div class="grid grid-cols-2 gap-4 mb-6">
+                <div>
+                    <p class="text-gray-600">Cliente</p>
+                    <p class="text-xl font-semibold">{{ orden.user.username }}</p>
+                </div>
+                <div>
+                    <p class="text-gray-600">Fecha del pedido</p>
+                    <p class="text-xl font-semibold">{{ orden.order_date|date:"d/m/Y H:i" }}</p>
+                </div>
+            </div>
+        </div>
+        
+        {% if orden.order_products.all %}
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+                <table class="w-full">
+                    <thead class="bg-gray-100 border-b">
+                        <tr>
+                            <th class="text-left px-6 py-3 font-semibold text-gray-700">Producto</th>
+                            <th class="text-center px-6 py-3 font-semibold text-gray-700">Cantidad</th>
+                            <th class="text-right px-6 py-3 font-semibold text-gray-700">Precio</th>
+                            <th class="text-right px-6 py-3 font-semibold text-gray-700">Subtotal</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for product_order in orden.order_products.all %}
+                        <tr class="border-b hover:bg-gray-50">
+                            <td class="px-6 py-4">{{ product_order.product.name }}</td>
+                            <td class="text-center px-6 py-4">{{ product_order.quantity }}</td>
+                            <td class="text-right px-6 py-4">${{ product_order.product.price }}</td>
+                            <td class="text-right px-6 py-4 font-semibold">${{ product_order.quantity|floatformat:2 }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="mt-6 text-right">
+                <p class="text-xl text-gray-600 mb-4">
+                    <span class="font-semibold">Total de productos:</span> {{ orden.order_products.all|length }}
+                </p>
+            </div>
+            
+            <div class="mt-6 flex gap-4 justify-end">
+                <a href="{% url 'list_products' %}" class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-6 rounded-lg transition">
+                    Seguir comprando
+                </a>
+                <button class="bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-6 rounded-lg transition">
+                    Confirmar pedido
+                </button>
+            </div>
+        {% else %}
+            <div class="bg-blue-50 border-l-4 border-blue-500 p-4">
+                <p class="text-blue-800">Tu pedido está vacío. <a href="{% url 'list_products' %}" class="font-semibold hover:underline">Agrega productos aquí</a></p>
+            </div>
+        {% endif %}
+    {% else %}
+        <div class="bg-yellow-50 border-l-4 border-yellow-500 p-4">
+            <p class="text-yellow-800">No tienes ninguna orden activa. <a href="{% url 'list_products' %}" class="font-semibold hover:underline">Comienza tu pedido aquí</a></p>
+        </div>
+    {% endif %}
+</div>
 {% endblock content %}
