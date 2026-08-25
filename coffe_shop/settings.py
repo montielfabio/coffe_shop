@@ -9,12 +9,13 @@ import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 env = environ.Env()
+environ.Env.read_env()  # Esto carga el archivo .env
 
 # Solo leer .env si existe (en local), en AWS usa variables de entorno
 if (BASE_DIR / ".env").exists():
     environ.Env.read_env(BASE_DIR / ".env")
 
-SECRET_KEY = "django-insecure-*p_9y*nnoe7yp-n2zwq=2*xvyuwgdba%85vyws47f#xs5whi45"
+SECRET_KEY = env.str("DJANGO_SECRET_KEY")
 
 # DEBUG es False en producción a menos que esté explícitamente configurado
 DEBUG = os.environ.get("DEBUG", "False") == "True"
