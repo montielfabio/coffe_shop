@@ -1,0 +1,31 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: dockerfile
+    image: my-web-app:latest
+    ports:
+      - "8000:8000"
+    env_file: .env
+    depends_on:
+       db:
+          condition: service_healthy
+
+  db:
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    image: postgres:15
+    environment:
+        POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: famon1979
+        POSTGRES_DB: coffe_shop_db
+    volumes:
+        - db-data:/var/lib/postgresql/data 
+      
+    ports:
+      - "5432:5432"
+volumes:
+  db-data:

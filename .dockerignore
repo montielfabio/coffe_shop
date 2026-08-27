@@ -1,0 +1,10 @@
+.venv
+venv
+__pycache__
+*.pyc
+*.pyp
+.env
+.git/
+.gitignore
+db_sqllite3
+readme.md

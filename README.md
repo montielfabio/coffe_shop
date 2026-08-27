@@ -27,7 +27,10 @@ CAFETERIA/
 ├── static/              # Archivos estáticos (CSS, JS, imágenes)
 ├── media/               # Archivos multimedia (fotos de productos)
 ├── manage.py            # Script de gestión de Django
-└── requirements.txt     # Dependencias del proyecto
+├── requirements.txt     # Dependencias del proyecto
+├── dockerfile           # Imagen Docker de la aplicación
+├── docker-compose.yml   # Servicios web y PostgreSQL
+└── .dockerignore        # Archivos excluidos de la imagen Docker
 ```
 
 ---
@@ -215,6 +218,39 @@ Gestionar la autenticación y registro de usuarios en la plataforma.
 7. **Acceder a la aplicación**
    - Página principal: `http://localhost:8000/`
    - Admin: `http://localhost:8000/admin/`
+
+### Ejecución con Docker
+
+Requisitos adicionales:
+- Docker Desktop instalado y en ejecución
+- Archivo `.env` en la raíz del proyecto con las variables de entorno requeridas por Django
+
+Para construir la imagen, iniciar Django y PostgreSQL, ejecutar:
+
+```bash
+docker compose up --build
+```
+
+La aplicación queda disponible en `http://localhost:8000/` y PostgreSQL en el puerto `5432`. El servicio web espera a que la base de datos esté saludable antes de iniciar.
+
+En otra terminal, las migraciones y el superusuario se pueden crear dentro del contenedor web:
+
+```bash
+docker compose exec web python manage.py migrate
+docker compose exec web python manage.py createsuperuser
+```
+
+Para detener los servicios:
+
+```bash
+docker compose down
+```
+
+Los datos de PostgreSQL se conservan en el volumen Docker `db-data`. Para eliminar también ese volumen:
+
+```bash
+docker compose down -v
+```
 
 ---
 
